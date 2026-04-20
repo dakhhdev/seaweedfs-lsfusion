@@ -1,0 +1,48 @@
+MODULE SeaweedFSSDK;
+
+REQUIRE MasterData;
+
+CLASS SeaweedFSSettings;
+endpoint = DATA STRING(SeaweedFSSettings);
+accessKey = DATA STRING(SeaweedFSSettings);
+secretKey = DATA STRING(SeaweedFSSettings);
+
+seaweedFSSettings = GROUP LAST SeaweedFSSettings s IF s IS SeaweedFSSettings ORDER s;
+seaweedFSEndpoint = endpoint(seaweedFSSettings());
+seaweedFSAccessKey = accessKey(seaweedFSSettings());
+seaweedFSSecretKey = secretKey(seaweedFSSettings());
+
+//---------------------------------------------------------------------------------------------------------------------
+storageObject = DATA LOCAL NESTED FILE();
+getStorageObject INTERNAL 'tech.ihamkor.lsfusion.seaweedfs.actions.GetObject' (STRING, STRING); // bucket, objectPath
+
+
+putStorageObjectSuccess = DATA LOCAL NESTED BOOLEAN();
+putStorageObject INTERNAL 'tech.ihamkor.lsfusion.seaweedfs.actions.PutObject' (STRING, STRING, FILE); // bucket, objectPath, file
+
+
+removeStorageObjectSuccess = DATA LOCAL NESTED BOOLEAN ();
+removeStorageObject INTERNAL 'tech.ihamkor.lsfusion.seaweedfs.actions.RemoveObject' (STRING, STRING); // bucket, objectPath
+
+
+FORM seaweedFSSettings 'SeaweedFS settings'
+    OBJECTS s = SeaweedFSSettings
+    PROPERTIES(s) endpoint, accessKey, secretKey
+    PROPERTIES(s) NEWSESSION NEW, DELETE
+
+    LIST SeaweedFSSettings OBJECT s
+;
+
+FORM editSeaweedFSSettings
+    OBJECTS s = SeaweedFSSettings PANEL
+    PROPERTIES(s) endpoint, accessKey, secretKey
+
+    EDIT SeaweedFSSettings OBJECT s
+;
+
+
+NAVIGATOR {
+    masterData {
+        NEW seaweedFSSettings;
+    }
+}
