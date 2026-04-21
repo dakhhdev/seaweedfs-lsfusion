@@ -47,9 +47,9 @@
         <version>6.2-SNAPSHOT</version>
     </parent>
 
-    <groupId>io.github.dakhhdev</groupId>
+    <groupId>com.github.dakhhdev</groupId>
     <artifactId>seaweedfs-lsfusion</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
