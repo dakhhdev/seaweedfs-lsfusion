@@ -35,7 +35,13 @@ public class PutObject extends SeaweedFSAction {
                     .key(objectPath)
                     .build();
 
-            client.putObject(request, RequestBody.fromByteBuffer(ByteBuffer.wrap(file.getBytes())));
+            byte[] bytes = file.getRawFile().getBytes();
+
+            client.putObject(
+                    request,
+                    RequestBody.fromBytes(bytes)
+            );
+
             this.findProperty("putStorageObjectSuccess[]").change(true, context);
         } catch (Exception e) {
             throw Throwables.propagate(e);
