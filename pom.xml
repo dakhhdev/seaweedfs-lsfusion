@@ -44,12 +44,12 @@
     <parent>
         <groupId>lsfusion.platform.build</groupId>
         <artifactId>logics</artifactId>
-        <version>6.2-SNAPSHOT</version>
+        <version>6.2</version>
     </parent>
 
-    <groupId>com.github.dakhhdev</groupId>
+    <groupId>io.github.dakhhdev</groupId>
     <artifactId>seaweedfs-lsfusion</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.1</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -86,14 +86,14 @@
         <dependency>
             <groupId>lsfusion.platform</groupId>
             <artifactId>server</artifactId>
-            <version>6.2-SNAPSHOT</version>
+            <version>6.2</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>lsfusion.platform</groupId>
             <artifactId>api</artifactId>
-            <version>6.2-SNAPSHOT</version>
+            <version>6.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -122,6 +122,61 @@
                             <!-- To prevent parent inheritance issues in the reduced POM -->
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <minimizeJar>true</minimizeJar>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.6.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
                         </configuration>
                     </execution>
                 </executions>
